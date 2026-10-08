@@ -49,9 +49,9 @@ Built on Cloudflare Workers and Artifacts.
 
 ](LICENSE)
 
-[Demo video](video/ferox-demo.mp4) · [Terminal proof](video/ferox-terminal-proof.mp4) · [How it works](docs/how-it-works.md) · [Limits](docs/limits.md)
+[Watch the 3:31 demo](video/ferox-demo.mp4) · [Terminal proof](video/ferox-terminal-proof.mp4) · [How it works](docs/how-it-works.md) · [Limits](docs/limits.md)
 
-<img src="docs/img/desktop-done.png" alt="Ferox dashboard after a run" width="900">
+<img src="docs/img/demo-replay.png" alt="Ferox replay detail showing a stale caller rebuilt after a rename lands" width="900">
 
 </div>
 
@@ -164,21 +164,15 @@ npm run start:cloud     # same dashboard, Artifacts backend
 
 The smoke test creates a trunk, runs rename vs. caller, gives every attempt its own fork, checks a fresh clone of trunk matches the local ledger, checks the notes made the trip, and makes sure a fork token gets rejected on trunk. Clean up rehearsal repos with `npm run cloud:cleanup -- <run dir>`.
 
-## With a real coding agent
-
-```bash
-FEROX_AGENT=claude npm run demo -- llm 8
-```
-
-The `llm` workload has a task no codemod can do. Claude Code writes it, the rename lands under it, and Claude rebuilds it against the new parser.
-
-Claude runs with file tools only, no shell, user hooks and plugins off, and a $0.50 cap per call. Other agents' intents go into the prompt fenced off as data, not instructions. Transcripts land in the run's `evidence/agents/` folder.
-
-Any other CLI agent works too:
+## With a CLI coding agent
 
 ```bash
 FEROX_AGENT=command FEROX_AGENT_CMD=./my-agent npm run demo -- llm 8
 ```
+
+The `llm` workload has a task no codemod can do. Your configured agent writes it, the rename lands underneath it, and Ferox asks the agent to rebuild it against the new parser.
+
+Other agents' intents go into the prompt fenced off as data, not instructions. Transcripts land in the run's `evidence/agents/` folder.
 
 <details>
 <summary><b>Agent settings</b></summary>
@@ -187,20 +181,21 @@ FEROX_AGENT=command FEROX_AGENT_CMD=./my-agent npm run demo -- llm 8
 
 | Variable | Default | |
 |---|---|---|
-| `FEROX_AGENT` | codemod | `claude` or `command` |
+| `FEROX_AGENT` | codemod | `command` for an external CLI agent |
 | `FEROX_AGENT_CMD` | | binary for `command` |
 | `FEROX_AGENT_ARGS` | | args for `command`, as a JSON array. Prompt goes on stdin |
-| `FEROX_AGENT_MODEL` | | model passed to Claude Code |
+| `FEROX_AGENT_MODEL` | | optional model passed to the agent command |
 | `FEROX_AGENT_MAX_USD` | `0.50` | per-call budget |
 | `FEROX_AGENT_TIMEOUT_MS` | | per-call timeout |
 | `FEROX_AGENT_PARALLEL` | | concurrent agent calls |
-| `FEROX_CLAUDE_BIN` | `claude` | path to the Claude Code CLI |
 
 </details>
 
 ## Check it with plain Git
 
 You don't have to trust the dashboard. Every demo prints its run directory.
+
+<img src="docs/img/demo-git-proof.png" alt="Plain Git verification of landed intents and replay lineage" width="900">
 
 ```bash
 git clone RUN_DIR/trunk.git check && cd check
