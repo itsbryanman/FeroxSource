@@ -1,0 +1,7 @@
+node_modules
+.ferox
+benchmarks
+.git
+.wrangler
+.dev.vars
+.env

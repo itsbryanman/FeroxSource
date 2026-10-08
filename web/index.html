@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ferox Source</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<nav>
+  <a class="brand" href="/"><span class="mark">F</span> FEROX <span class="soft">SOURCE</span></a>
+  <span id="backend" class="badge">LOCAL GIT</span>
+  <button id="auth" class="quiet">API token</button>
+</nav>
+<main>
+  <header>
+    <div>
+      <div class="eyebrow"><span class="pulse"></span> CHANGE INTEGRATION FOR MANY AGENTS</div>
+      <h1>Keep the intent.<br><span>Rebuild the change.</span></h1>
+      <p>Every change carries its task and its tests. When code it depends on moves, the diff gets thrown away and the change is rebuilt against the new trunk, with the reason it moved. Nothing lands without passing every test that has ever landed.</p>
+    </div>
+    <div class="run-card">
+      <div class="eyebrow">RUN A SCENARIO</div>
+      <label>Workload
+        <select id="workload">
+          <option value="semantic">Rename vs. new caller</option>
+          <option value="semantic-reversed">Rename vs. new caller (caller first)</option>
+          <option value="llm">Real coding agent replay</option>
+          <option value="pair">Two changes that break together</option>
+          <option value="triple">Three changes that break together</option>
+          <option value="alternatives">Competing alternatives</option>
+          <option value="policy">Agent edits protected policy</option>
+          <option value="independent">Independent work only</option>
+        </select>
+      </label>
+      <div class="control-row">
+        <label>Extra agents<input type="number" id="count" value="16" min="0" max="256"></label>
+        <label>Integrator
+          <select id="mode">
+            <option value="ferox">Ferox (predict + replay)</option>
+            <option value="baseline">Merge queue (batch + bisect)</option>
+          </select>
+        </label>
+      </div>
+      <div class="buttons">
+        <button id="prepare" class="secondary">1. Draft changes</button>
+        <button id="integrate">2. Integrate</button>
+      </div>
+      <p class="small">Real git commits and a real TypeScript oracle. Extra agents are codemods. The agent replay scenario uses a real coding agent when the runner has one.</p>
+    </div>
+  </header>
+
+  <div id="status" role="status">Pick a workload and draft changes.</div>
+
+  <section class="metrics" aria-label="run stats">
+    <div><span>LANDED</span><strong id="accepted">—</strong><small>changes on trunk</small></div>
+    <div><span>ORACLE RUNS</span><strong id="validations">—</strong><small>full test suite executions</small></div>
+    <div><span>REPLAYS</span><strong id="replays">—</strong><small>rebuilt from intent</small></div>
+    <div><span>FAILING SETS</span><strong id="capsules">—</strong><small>combos caught by the oracle</small></div>
+    <div><span>AGENT RUNS</span><strong id="agents">—</strong><small>real coding agent calls</small></div>
+    <div><span>ORACLE TIME</span><strong id="duration">—</strong><small>assembly + tests</small></div>
+  </section>
+
+  <section class="workspace">
+    <div class="graph-panel">
+      <div class="panel-head">
+        <div><div class="eyebrow">01</div><h2>Who touches what</h2></div>
+      </div>
+      <div class="legend">
+        <span class="ready">ready</span><span class="accepted">landed</span><span class="replaying">replaying</span>
+        <span class="blocked">blocked / escalated</span><span class="quarantined">quarantined</span><span class="llm">thick ring = real agent</span>
+      </div>
+      <svg id="graph" viewBox="0 0 900 470" role="img" aria-label="changes and their predicted interactions"></svg>
+      <div class="graph-foot">
+        <span>Blue lines: one change reads what another writes. Red diamonds: sets the oracle caught failing together.</span>
+        <span id="graph-count">0 changes</span>
+      </div>
+    </div>
+    <aside>
+      <div class="panel-head"><div><div class="eyebrow">02</div><h2 id="detail-title">Click a change</h2></div></div>
+      <div id="detail"><p class="muted">Click a node for its intent, footprint and replay history. Click a candidate below for the actual test output.</p></div>
+    </aside>
+  </section>
+
+  <section class="lower">
+    <div class="panel">
+      <div class="panel-head"><div><div class="eyebrow">03</div><h2>Candidates tested</h2></div></div>
+      <div id="candidates" class="candidate-list"><p class="muted">Shows up once integration starts.</p></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><div class="eyebrow">04</div><h2>Event log</h2></div></div>
+      <div id="events" class="event-list"><p class="muted">Every state change is persisted and shown here.</p></div>
+    </div>
+  </section>
+
+  <section class="panel runs-panel">
+    <div class="panel-head"><div><div class="eyebrow">05</div><h2>Runs this session</h2></div></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>workload</th><th>mode</th><th>backend</th><th>changes</th><th>landed</th><th>replays</th><th>oracle runs</th><th>failing sets</th><th>escalated</th><th>integrate (s)</th></tr></thead>
+        <tbody id="runs"></tbody>
+      </table>
+      <p id="runs-empty" class="muted">Run the same workload in both modes to compare them here.</p>
+    </div>
+  </section>
+
+  <section class="trunk">
+    <div><div class="eyebrow">TRUNK HEAD</div><code id="head">nothing landed yet</code></div>
+    <div id="trunk-steps"></div>
+  </section>
+
+  <footer><span>Ferox Source · MIT · <a href="https://github.com/itsbryanman/ferox-source">github.com/itsbryanman/ferox-source</a></span></footer>
+</main>
+<script type="module" src="/app.js"></script>
+</body>
+</html>

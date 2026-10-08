@@ -1,0 +1,12 @@
+node_modules/
+.ferox/
+benchmarks/runs/
+.wrangler/
+.dev.vars
+.env
+*.log
+.env.cloud
+.dev.vars
+video/raw/
+benchmarks/runs/
+*.md

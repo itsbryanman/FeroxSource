@@ -1,0 +1,35 @@
+{
+  "name": "ferox-source",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Intent-sourced change integration for many concurrent coding agents, on Cloudflare Workers and Artifacts",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test --test-concurrency=1 test/*.test.mjs",
+    "demo": "node scripts/demo.mjs",
+    "benchmark": "node scripts/benchmark.mjs",
+    "check:cloudflare": "tsc -p cloudflare/tsconfig.json --noEmit",
+    "cloudflare:dev": "wrangler dev -c cloudflare/wrangler.jsonc",
+    "cloudflare:deploy": "wrangler deploy -c cloudflare/wrangler.jsonc",
+    "reproduce": "node scripts/reproduce.mjs",
+    "cloud:setup": "bash scripts/cloudflare-setup.sh",
+    "cloud:smoke": "node --env-file=.env.cloud scripts/cloud-smoke.mjs",
+    "cloud:cleanup": "node --env-file=.env.cloud scripts/cloud-cleanup.mjs",
+    "start:cloud": "node --env-file=.env.cloud src/server.mjs",
+    "demo:cloud": "node --env-file=.env.cloud scripts/demo.mjs",
+    "ui:check": "node scripts/ui-check.mjs",
+    "benchmark:cloud": "node --env-file=.env.cloud scripts/benchmark.mjs"
+  },
+  "dependencies": {
+    "typescript": "5.9.3"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261008.1",
+    "playwright-core": "^1.56.1",
+    "wrangler": "4.148.0"
+  }
+}

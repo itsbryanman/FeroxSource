@@ -1,0 +1,55 @@
+{
+  "startedAt": "2026-10-08T15:13:12.816Z",
+  "steps": [
+    {
+      "name": "created Artifacts trunk and pushed seed",
+      "ok": true,
+      "note": "ferox-f1f52971-34c"
+    },
+    {
+      "name": "rename vs. caller resolved in cloud mode",
+      "ok": true,
+      "note": "landed 4, replays 1"
+    },
+    {
+      "name": "every attempt got its own Artifacts fork",
+      "ok": true,
+      "note": "5 forks"
+    },
+    {
+      "name": "fresh clone of Artifacts main equals local ledger head",
+      "ok": true,
+      "note": "de97227562bf"
+    },
+    {
+      "name": "intent notes travel with the Artifacts repo",
+      "ok": true,
+      "note": "{\"intents\":[{\"id\":\"new-caller\",\"title\":\"Add date report\",\"task\":\"Add src/report."
+    },
+    {
+      "name": "fork token cannot push to trunk",
+      "ok": true,
+      "note": "git exit 128",
+      "output": "remote: Invalid or expired token\nfatal: unable to access 'https://[redacted].artifacts.cloudflare.net/git/ferox/ferox-f1f52971-34c.git/': The requested URL returned error: 403\n"
+    }
+  ],
+  "trunk": "ferox-f1f52971-34c",
+  "forks": [
+    "ferox-f1f52971-34c-rename-date-a1",
+    "ferox-f1f52971-34c-new-caller-a1",
+    "ferox-f1f52971-34c-new-caller-a2",
+    "ferox-f1f52971-34c-task-001-a1",
+    "ferox-f1f52971-34c-task-002-a1"
+  ],
+  "totalMs": 19585,
+  "metrics": {
+    "validations": 2,
+    "validationMs": 1345,
+    "cacheHits": 0,
+    "replays": 1,
+    "accepted": 4,
+    "quarantined": 0,
+    "submitted": 5,
+    "agentRuns": 0
+  }
+}

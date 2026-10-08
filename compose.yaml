@@ -1,0 +1,12 @@
+services:
+  ferox:
+    build: .
+    ports:
+      - "127.0.0.1:8788:8788"
+    environment:
+      FEROX_API_TOKEN: ${FEROX_API_TOKEN:?Set a random local dashboard token}
+    volumes:
+      - ferox-data:/data
+    restart: unless-stopped
+volumes:
+  ferox-data:
